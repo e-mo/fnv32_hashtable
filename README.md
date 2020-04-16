@@ -15,7 +15,7 @@ typedef struct fnv32_ht fnv32_ht;
 ```
 ```c
 fnv32_ht *fnv32_ht_new(uint32_t size);
-// Returns (fnv32_ht *) to newly allocated fnv32_ht struct with table of given size on success
+// Returns (fnv32_ht *) to newly allocated fnv32_ht struct containing table of given size
 // Returns NULL on failure to allocate
 ```
 ```c
@@ -35,14 +35,15 @@ int32_t fnv32_ht_get(fnv32_ht *ht, char *key);
 ```
 ```c
 void fnv32_ht_free(fnv32_ht *ht);
-// Frees fnv32_ht
+// Frees given fnv32_ht and every associated fnv32_ht_entry
+```
 ### Example
 ```c
 
 #include "fnv32_ht.h"
 
 int main() {
-  fnv32_ht *ht = fnv32_ht_new(50);    // Create new hashtable with 50 buckets
+  fnv32_ht *ht = fnv32_ht_new(50);    // Create new hashtable with 50 index table
   fnv32_ht_ins(ht, "e-mo", 33);       // Insert entry with key "e-mo" and value 33
   int32_t val = fnv32_ht_get("e-mo"); // Retrieve value associated with key "e-mo" (33)
   fnv32_ht_del("e-mo");               // Remove entry associated with key "e-mo"
