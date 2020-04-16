@@ -6,8 +6,10 @@ KEY TYPE:             string (char *)
 VALUE TYPE:           int (uint32_t)  
 COLLISION RESOLUTION: separate chaining
 ```
-meow | meow | meow |
+
 ---:|---:|---:|
+meow | meow | meow |
+
 *More info on FNV-1a at http://www.isthe.com/chongo/tech/comp/fnv/
  
 ### INTERFACE 
