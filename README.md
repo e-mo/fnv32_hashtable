@@ -1,11 +1,11 @@
 # fnv32_hashtable
 ### A simple <str, int> hash table using the FNV-1a hashing algorithm.
-<pre>
+```
 HASHING ALGORITHM:    FNV-1a  
 KEY TYPE:             string (char *)  
 VALUE TYPE:           int (uint32_t)  
 COLLISION RESOLUTION: separate chaining
-</pre>
+```
  
 ### INTERFACE 
 typedef struct fnv32_ht fnv32_ht;
