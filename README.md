@@ -6,10 +6,6 @@ KEY TYPE:             string (char *)
 VALUE TYPE:           int (uint32_t)  
 COLLISION RESOLUTION: separate chaining
 ```
- | | 
----:|---:|---:|
-meow | meow | meow |
-
 *More info on FNV-1a at http://www.isthe.com/chongo/tech/comp/fnv/
  
 ### INTERFACE 
@@ -55,3 +51,6 @@ int main() {
 }
 ```
 
+I built this hashtable implementation to hold an unknown number of unix domain socket file descriptors
+in a central message broker for a MUD I'm working on.
+Feel free to use it for whatever. Also feel free to critique. I like to learn things.
