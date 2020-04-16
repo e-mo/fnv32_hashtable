@@ -1,11 +1,12 @@
 # fnv32_hashtable
 ### A simple <str, int> hash table using the FNV-1a hashing algorithm.
 ```
-HASHING ALGORITHM:    FNV-1a  
+HASHING ALGORITHM:    FNV-1a*  
 KEY TYPE:             string (char *)  
 VALUE TYPE:           int (uint32_t)  
 COLLISION RESOLUTION: separate chaining
 ```
+*More info on FNV-1a at http://www.isthe.com/chongo/tech/comp/fnv/
  
 ### INTERFACE 
 ```c
@@ -14,11 +15,22 @@ typedef struct fnv32_ht fnv32_ht;
 ```
 ```c
 fnv32_ht *fnv32_ht_new(uint32_t size);
-// Returns (fnv32_ht *) to newly allocated fnv32_ht struct on success
-// Return NULL on failure
+// Returns (fnv32_ht *) to newly allocated fnv32_ht of given size on success
+// Returns NULL on failure to allocate
 ```
-###Example
 ```c
+int8_t fnv32_ht_ins(fnv32_ht *ht, char *key, uint32_t val);
+// Returns 0 on successful insertion of new table entry <key, val>
+// Returns -1 on failure to allocate
+```
+```c
+int8_t fnv32_ht_del(fnv32_ht *ht, char *key);
+// Returns 0 on successful deletion of entry associated with given key
+// Returns -1 on failure
+```
+### Example
+```c
+
 #include "fnv32_ht.h"
 
 int main() {
@@ -30,4 +42,3 @@ int main() {
 }
 ```
 
-*More info on FNV-1a at http://www.isthe.com/chongo/tech/comp/fnv/
