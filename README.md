@@ -15,7 +15,7 @@ typedef struct fnv32_ht fnv32_ht;
 ```
 ```c
 fnv32_ht *fnv32_ht_new(uint32_t size);
-// Returns (fnv32_ht *) to newly allocated fnv32_ht of given size on success
+// Returns (fnv32_ht *) to newly allocated fnv32_ht struct with table of given size on success
 // Returns NULL on failure to allocate
 ```
 ```c
@@ -26,8 +26,16 @@ int8_t fnv32_ht_ins(fnv32_ht *ht, char *key, uint32_t val);
 ```c
 int8_t fnv32_ht_del(fnv32_ht *ht, char *key);
 // Returns 0 on successful deletion of entry associated with given key
-// Returns -1 on failure
+// Returns -1 on failure to find entry associated with given key
 ```
+```c
+int32_t fnv32_ht_get(fnv32_ht *ht, char *key);
+// Returns uint32_t value of entry associated with given key
+// Return -1 on failiure to find entry associated with given key
+```
+```c
+void fnv32_ht_free(fnv32_ht *ht);
+// Frees fnv32_ht
 ### Example
 ```c
 
