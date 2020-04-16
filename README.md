@@ -6,7 +6,7 @@ KEY TYPE:             string (char *)
 VALUE TYPE:           int (uint32_t)  
 COLLISION RESOLUTION: separate chaining
 ```
-||
+ | | 
 ---:|---:|---:|
 meow | meow | meow |
 
