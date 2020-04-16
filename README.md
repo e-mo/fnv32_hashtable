@@ -10,7 +10,12 @@ COLLISION RESOLUTION: separate chaining
 ### INTERFACE 
 ```c
 typedef struct fnv32_ht fnv32_ht;
-// Incomplete type for holding **fnv32_ht *** returned by fnv32_ht_new()
+// Incomplete type for holding (fnv32_ht *) returned by fnv32_ht_new()
+```
+```c
+fnv32_ht *fnv32_ht_new(uint32_t size);
+// Returns (fnv32_ht *) to newly allocated fnv32_ht struct on success
+// Return NULL on failure
 ```
 ###Example
 ```c
