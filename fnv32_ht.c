@@ -11,26 +11,26 @@
 typedef struct fnv32_ht_entry fnv32_ht_entry;
 struct fnv32_ht_entry {
     char *key;
-    int32_t val;
+    int val;
     fnv32_ht_entry *next;
 };
 
 struct fnv32_ht {
-    uint32_t size;
+    int size;
     fnv32_ht_entry **table;
 };
 
 // STATIC 
 
-static fnv32_ht_entry *ht_entry_new(char *, int32_t);
-static void ht_entry_free(fnv32_ht_entry *);
+static fnv32_ht_entry *ht_entry_new(char *key, int val);
+static void ht_entry_free(fnv32_ht_entry *hte);
 
 static void ht_entry_chain_ins(fnv32_ht_entry *hte, fnv32_ht_entry *next);
-static int8_t ht_entry_chain_del(fnv32_ht_entry *hte, char *key);
-static int32_t ht_entry_chain_get(fnv32_ht_entry *hte, char *key);
+static int ht_entry_chain_del(fnv32_ht_entry *hte, char *key);
+static int ht_entry_chain_get(fnv32_ht_entry *hte, char *key);
 static void ht_entry_chain_free(fnv32_ht_entry *hte);
 
-static fnv32_ht_entry *ht_entry_new(char *key, int32_t val) {
+static fnv32_ht_entry *ht_entry_new(char *key, int val) {
     fnv32_ht_entry *new_entry;
     if ((new_entry = malloc(sizeof(fnv32_ht_entry))) == NULL) 
         return NULL;
@@ -57,7 +57,7 @@ static void ht_entry_chain_ins(fnv32_ht_entry *hte, fnv32_ht_entry *next) {
         hte->next = next;
 }
 
-static int8_t ht_entry_chain_del(fnv32_ht_entry *hte, char *key) {
+static int ht_entry_chain_del(fnv32_ht_entry *hte, char *key) {
     if (!strcmp(hte->next->key, key)) {
         fnv32_ht_entry *next = hte->next;
         if (next->next != NULL)
@@ -69,7 +69,7 @@ static int8_t ht_entry_chain_del(fnv32_ht_entry *hte, char *key) {
     return -1;
 }
 
-static int32_t ht_entry_chain_get(fnv32_ht_entry *hte, char *key) {
+static int ht_entry_chain_get(fnv32_ht_entry *hte, char *key) {
     if (!strcmp(hte->key, key))
         return hte->val;
     else if (hte->next != NULL)
@@ -85,7 +85,7 @@ static void ht_entry_chain_free(fnv32_ht_entry *hte) {
 
 // INTERFACE
 
-fnv32_ht *fnv32_ht_new(uint32_t size) {
+fnv32_ht *fnv32_ht_new(unsigned size) {
     fnv32_ht *new_ht;
     if ((new_ht = malloc(sizeof(fnv32_ht))) == NULL) {
         // HANDLE HT ALLOC FAILURE
@@ -103,7 +103,7 @@ fnv32_ht *fnv32_ht_new(uint32_t size) {
     return new_ht;
 }
 
-int8_t fnv32_ht_ins(fnv32_ht *ht, char *key, uint32_t val) {
+int fnv32_ht_ins(fnv32_ht *ht, char *key, int val) {
     fnv32_ht_entry *new_entry;
     if ((new_entry = ht_entry_new(key, val)) == NULL)
         return -1;
@@ -119,7 +119,7 @@ int8_t fnv32_ht_ins(fnv32_ht *ht, char *key, uint32_t val) {
     return 1;
 }
 
-int8_t fnv32_ht_del(fnv32_ht *ht, char *key) {
+int fnv32_ht_del(fnv32_ht *ht, char *key) {
     uint32_t hash = fnv32_hash_str(key); 
     uint32_t index =  hash % ht->size;
 
@@ -136,7 +136,7 @@ int8_t fnv32_ht_del(fnv32_ht *ht, char *key) {
 }
 
 
-int32_t fnv32_ht_get(fnv32_ht *ht, char *key) {
+int fnv32_ht_get(fnv32_ht *ht, char *key) {
     uint32_t hash = fnv32_hash_str(key); 
     uint32_t index =  hash % ht->size;
 

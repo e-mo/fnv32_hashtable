@@ -1,5 +1,5 @@
-#ifndef FNV32_HASH_H
-#define FNV32_HASH_H
+#ifndef FNV64_HASH_H
+#define FNV64_HASH_H
 
 #include <stdint.h>
 

@@ -3,6 +3,8 @@
 #include <time.h>
 #include "fnv32_ht.h"
 
+extern int collisions;
+
 int main(int argc, char *argv[]) {
     if (argc != 4) {
         printf("wrong number of args\n");

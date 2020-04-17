@@ -7,10 +7,10 @@
 
 typedef struct fnv32_ht fnv32_ht;
 
-fnv32_ht *fnv32_ht_new(uint32_t size);
-int8_t fnv32_ht_ins(fnv32_ht *ht, char *key, uint32_t val);
-int8_t fnv32_ht_del(fnv32_ht *ht, char *key);
-int32_t fnv32_ht_get(fnv32_ht *ht, char *key);
+fnv32_ht *fnv32_ht_new(unsigned size);
+int fnv32_ht_ins(fnv32_ht *ht, char *key, int val);
+int fnv32_ht_del(fnv32_ht *ht, char *key);
+int fnv32_ht_get(fnv32_ht *ht, char *key);
 void fnv32_ht_free(fnv32_ht *ht);
 
 #endif
