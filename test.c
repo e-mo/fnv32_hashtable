@@ -84,5 +84,7 @@ int main(int argc, char *argv[]) {
     printf("MIN: %f\n", min);
     printf("MAX: %f\n", max);
 
+    fnv32_ht_free(ht);
+
     return 0;
 }

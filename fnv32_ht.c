@@ -42,9 +42,9 @@ static fnv32_ht_entry *ht_entry_new(char *key, int32_t val) {
     return new_entry;
 }
 
-static void ht_entry_free(fnv32_ht_entry *ht_entry) {
-    free(ht_entry->key);
-    free(ht_entry);
+static void ht_entry_free(fnv32_ht_entry *hte) {
+    free(hte->key);
+    free(hte);
 }
 
 static void ht_entry_chain_ins(fnv32_ht_entry *hte, fnv32_ht_entry *next) {
@@ -80,7 +80,7 @@ static int32_t ht_entry_chain_get(fnv32_ht_entry *hte, char *key) {
 static void ht_entry_chain_free(fnv32_ht_entry *hte) {
     if (hte->next != NULL) 
         ht_entry_chain_free(hte->next);
-    free(hte);
+    ht_entry_free(hte);
 }
 
 // INTERFACE
@@ -158,5 +158,6 @@ void fnv32_ht_free(fnv32_ht *ht) {
                 ht_entry_free(ht->table[i]);
         }
     }
+    free(ht->table);
     free(ht);
 }
