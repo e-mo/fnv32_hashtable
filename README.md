@@ -51,6 +51,5 @@ int main() {
 }
 ```
 
-I built this hashtable implementation to hold an unknown number of unix domain socket file descriptors
-in a central message broker for a MUD I'm working on.
-Feel free to use it for whatever. Also feel free to critique. I like to learn things.
+I built this hashtable implementation to hold an unknown number of unix domain sockets
+in a central message broker for a MUD server I'm working on.
