@@ -1,5 +1,5 @@
 # fnv32_hashtable
-### A simple <str, int> hash table using the FNV-1a hashing algorithm.
+### A simple <str, int> hash table interface utilizing the FNV-1a hashing algorithm.
 ```
 HASHING ALGORITHM:    FNV-1a*  
 KEY TYPE:             string (char *)  
