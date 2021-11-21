@@ -11,7 +11,7 @@
 typedef struct fnv32_ht_entry fnv32_ht_entry;
 struct fnv32_ht_entry {
     char *key;
-    int val;
+    void *val;
     fnv32_ht_entry *next;
 };
 
@@ -22,15 +22,15 @@ struct fnv32_ht {
 
 // STATIC 
 
-static fnv32_ht_entry *ht_entry_new(char *key, int val);
+static fnv32_ht_entry *ht_entry_new(char *key, void *val);
 static void ht_entry_free(fnv32_ht_entry *hte);
 
 static void ht_entry_chain_ins(fnv32_ht_entry *hte, fnv32_ht_entry *next);
 static int ht_entry_chain_del(fnv32_ht_entry *hte, char *key);
-static int ht_entry_chain_get(fnv32_ht_entry *hte, char *key);
+static void * ht_entry_chain_get(fnv32_ht_entry *hte, char *key);
 static void ht_entry_chain_free(fnv32_ht_entry *hte);
 
-static fnv32_ht_entry *ht_entry_new(char *key, int val) {
+static fnv32_ht_entry *ht_entry_new(char *key, void *val) {
     fnv32_ht_entry *new_entry;
     if ((new_entry = malloc(sizeof(fnv32_ht_entry))) == NULL) 
         return NULL;
@@ -44,6 +44,7 @@ static fnv32_ht_entry *ht_entry_new(char *key, int val) {
 
 static void ht_entry_free(fnv32_ht_entry *hte) {
     free(hte->key);
+    free(hte->val);
     free(hte);
 }
 
@@ -69,12 +70,12 @@ static int ht_entry_chain_del(fnv32_ht_entry *hte, char *key) {
     return -1;
 }
 
-static int ht_entry_chain_get(fnv32_ht_entry *hte, char *key) {
+static void * ht_entry_chain_get(fnv32_ht_entry *hte, char *key) {
     if (!strcmp(hte->key, key))
         return hte->val;
     else if (hte->next != NULL)
         return ht_entry_chain_get(hte->next, key);
-    return -1;
+    return NULL;
 }
 
 static void ht_entry_chain_free(fnv32_ht_entry *hte) {
@@ -103,7 +104,7 @@ fnv32_ht *fnv32_ht_new(unsigned size) {
     return new_ht;
 }
 
-int fnv32_ht_ins(fnv32_ht *ht, char *key, int val) {
+int fnv32_ht_ins(fnv32_ht *ht, char *key, void *val) {
     fnv32_ht_entry *new_entry;
     if ((new_entry = ht_entry_new(key, val)) == NULL)
         return -1;
@@ -129,14 +130,14 @@ int fnv32_ht_del(fnv32_ht *ht, char *key) {
             ht->table[index] = hte->next;
             free(hte);
             return 0;
-        } else if (ht->table[index]->next != NULL)
-            return ht_entry_chain_del(ht->table[index], key);
+        } else if (ht->table[index]->next != NULL) 
+            ht_entry_chain_del(ht->table[index], key);
     } 
     return -1;
 }
 
 
-int fnv32_ht_get(fnv32_ht *ht, char *key) {
+void * fnv32_ht_get(fnv32_ht *ht, char *key) {
     uint32_t hash = fnv32_hash_str(key); 
     uint32_t index =  hash % ht->size;
 
@@ -146,7 +147,7 @@ int fnv32_ht_get(fnv32_ht *ht, char *key) {
         else if (ht->table[index]->next != NULL)
             return ht_entry_chain_get(ht->table[index], key);
     } 
-    return -1;
+    return NULL;
 }
 
 void fnv32_ht_free(fnv32_ht *ht) {
