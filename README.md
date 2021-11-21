@@ -45,7 +45,7 @@ void fnv32_ht_free(fnv32_ht *ht);
 
 int main() {
   fnv32_ht *ht = fnv32_ht_new(50);    // Create new hashtable with 50 index table
-  void *test_val = malloc(10);		  // Create test data
+  void *test_val = malloc(10);		      // Create test data
   fnv32_ht_ins(ht, "e-mo", test_val); // Insert entry with key "e-mo" and test_val pointer
   void *val = fnv32_ht_get("e-mo");   // Retrieve value associated with key "e-mo" (33)
   fnv32_ht_del("e-mo");               // Remove entry associated with key "e-mo"
