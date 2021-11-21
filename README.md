@@ -56,7 +56,26 @@ int main() {
 ## Pitfalls
 
 ### Double free
-There are two situations which can read to a double call of free() on the same pointer:
+There are two situations which can lead to a double call of free() on the same pointer:
 1. Data at a single memory location is associated with multiple keys. All values should be unique.
+```c
+void *test_val = malloc(10);
+fnv32_ht_ins(ht, "one", test_val);
+fnv32_ht_ins(ht, "two", test_val);
+fnv32_ht_free(ht); // This will result in a double free
+```
+  
 2. You call free() on memory associated with a key, and then call fnv32_ht_free() or fnv32_ht_del() on the entry. Only use fnv32_ht functions to free assicated memory once passed into hashtable. 
 
+```c
+void *test_val = malloc(10);
+fnv32_ht_ins(ht, "test", test_val);
+free(test_val);
+fnv32_ht_free(ht); // This will result in a double free
+```
+```c
+void *test_val = malloc(10);
+fnv32_ht_ins(ht, "test", test_val);
+free(test_val);
+fnv32_ht_del("test"); // This will result in a double free
+```
