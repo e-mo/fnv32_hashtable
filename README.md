@@ -58,7 +58,9 @@ int main() {
   fnv32_ht_free(ht);                  // Free hashtable
 }
 ```
-
+## Building as a library
+A makefile is provided to simplify building as a library and installing. Use the command `make help` at the root directory for instructions. 
+  
 ## Pitfalls
 
 ### Double free
