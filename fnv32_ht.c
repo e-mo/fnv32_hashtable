@@ -4,6 +4,7 @@
 
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 #include "fnv32_hash.h"
 #include "fnv32_ht.h"
@@ -51,6 +52,7 @@ static void ht_entry_free(fnv32_ht_entry *hte) {
 static void ht_entry_chain_ins(fnv32_ht_entry *hte, fnv32_ht_entry *next) {
     if (!strcmp(hte->key, next->key)) {
         hte->val = next->val;
+		hte->val = NULL;
         ht_entry_free(next);
     } else if (hte->next != NULL) 
         ht_entry_chain_ins(hte->next, next);
@@ -61,13 +63,26 @@ static void ht_entry_chain_ins(fnv32_ht_entry *hte, fnv32_ht_entry *next) {
 static int ht_entry_chain_del(fnv32_ht_entry *hte, char *key) {
     if (!strcmp(hte->next->key, key)) {
         fnv32_ht_entry *next = hte->next;
-        if (next->next != NULL)
-            hte->next = next->next;
-        free(next);
+        hte->next = next->next;
+		ht_entry_free(next);
         return 0;
-    } else if (hte->next->next != NULL)
+    } else if (hte->next->next != NULL) {
         return ht_entry_chain_del(hte->next, key);
+	}
     return -1;
+}
+
+static void * ht_entry_chain_rm(fnv32_ht_entry *hte, char *key) {
+    if (!strcmp(hte->next->key, key)) {
+        fnv32_ht_entry *next = hte->next;
+        hte->next = next->next;
+		void *val = next->val;
+		next->val = NULL;
+		ht_entry_free(next);
+        return val;
+    } else if (hte->next->next != NULL)
+        return ht_entry_chain_rm(hte->next, key);
+    return NULL;
 }
 
 static void * ht_entry_chain_get(fnv32_ht_entry *hte, char *key) {
@@ -89,11 +104,9 @@ static void ht_entry_chain_free(fnv32_ht_entry *hte) {
 fnv32_ht *fnv32_ht_new(unsigned size) {
     fnv32_ht *new_ht;
     if ((new_ht = malloc(sizeof(fnv32_ht))) == NULL) {
-        // HANDLE HT ALLOC FAILURE
         return NULL;
     } 
     if ((new_ht->table = malloc(size * sizeof(fnv32_ht_entry))) == NULL) {
-        // HANDLE TABLE ALLOC FAILURE
         return NULL;
     }
 
@@ -117,7 +130,7 @@ int fnv32_ht_ins(fnv32_ht *ht, char *key, void *val) {
     } else {
         ht->table[index] = new_entry;
     }
-    return 1;
+    return 0;
 }
 
 int fnv32_ht_del(fnv32_ht *ht, char *key) {
@@ -128,14 +141,31 @@ int fnv32_ht_del(fnv32_ht *ht, char *key) {
         if (!strcmp(ht->table[index]->key, key)) {
             fnv32_ht_entry *hte = ht->table[index];
             ht->table[index] = hte->next;
-            free(hte);
+            ht_entry_free(hte);
             return 0;
-        } else if (ht->table[index]->next != NULL) 
-            ht_entry_chain_del(ht->table[index], key);
+        } else if (ht->table[index]->next != NULL) {
+            return ht_entry_chain_del(ht->table[index], key);
+		}
     } 
     return -1;
 }
 
+void * fnv32_ht_rm(fnv32_ht *ht, char *key) {
+    uint32_t hash = fnv32_hash_str(key); 
+    uint32_t index =  hash % ht->size;
+    if (ht->table[index] != NULL) {
+        if (!strcmp(ht->table[index]->key, key)) {
+            fnv32_ht_entry *hte = ht->table[index];
+            ht->table[index] = hte->next;
+			void *val = hte->val;
+			hte->val = NULL;
+            ht_entry_free(hte);
+            return val;
+        } else if (ht->table[index]->next != NULL) 
+            return ht_entry_chain_rm(ht->table[index], key);
+    } 
+    return NULL;
+}
 
 void * fnv32_ht_get(fnv32_ht *ht, char *key) {
     uint32_t hash = fnv32_hash_str(key); 
