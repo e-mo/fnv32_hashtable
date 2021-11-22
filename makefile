@@ -25,8 +25,8 @@ ifneq ($(shell id -u), 0)
 endif
 	@rm /usr/local/include/fnv32_ht.h /usr/local/lib/libfnv32_ht.a
 
-# Build library to lib/ folder without installing.
-library: lib/libfnv32_ht.a
+# Build library to lib/ folder.
+build: lib/libfnv32_ht.a
 lib/libfnv32_ht.a: ${OBJS}
 	@mkdir -p lib
 	ar rcs $@ $^
@@ -43,7 +43,7 @@ help:
 	@printf "make test\n"
 	@printf "\t- builds test binay to bin/test\n"
 
-	@printf "make library\n"
+	@printf "make build\n"
 	@printf "\t- builds library to lib/libfnv32_ht.a\n"
 	@printf "\t- moves copy of fnv32_ht.h to lib/fnv32_ht.h\n"
 

@@ -89,4 +89,4 @@ fnv32_ht_ins(ht, "test", test_val);
 free(test_val);
 fnv32_ht_del("test"); // This will result in a double free
 ```
-To avoid these pitfalls, treat the hashtable as if it has ultimate ownership over any data given to it. If data must be removed from the table and freed manually, use the function `fnv32_ht_rm(fnv32_ht *ht, char *key)` function which returns the data and breaks the table's ownership of the data.  
+To avoid these pitfalls, treat the hashtable as if it has ultimate ownership over any data given to it. If data must be removed from the table and freed manually, use the `fnv32_ht_rm(fnv32_ht *ht, char *key)` function which returns the data and breaks the table's ownership of the data.  
