@@ -1,5 +1,5 @@
 // fnv32_ht.c
-// A FNV-1a 32bit hash table for string keys and int vals.
+// A FNV-1a 32bit hash table for string keys and dynamic (void *) vals.
 // Uses separate chaining to handle collisions.
 
 #include <stdlib.h>
