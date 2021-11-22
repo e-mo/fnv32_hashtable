@@ -93,7 +93,7 @@ int main() {
 	clock_t start, end;
 	double cpu_time;
 
-	printf("Test 1> single bucket: starting - ");
+	printf("Test 1: single bucket: starting - ");
 	fflush(stdout);
 	start = clock();
 	single_bucket();   // Only collisions, 3 entries
@@ -102,7 +102,7 @@ int main() {
 	printf("Passed!\n");
 	printf(" Duration: %f seconds\n", cpu_time);
 
-	printf("Test 2> ~40,000 entries, many collisions (5021 buckets): starting - ");
+	printf("Test 2: ~40,000 entries, many collisions (5,021 buckets): starting - ");
 	fflush(stdout);
 	start = clock();
 	dictionary(5021);  // Many collisions, ~40,000 entries
@@ -111,10 +111,10 @@ int main() {
 	printf("Passed!\n");
 	printf(" Duration: %f seconds\n", cpu_time);
 
-	printf("Test 3> ~40,000 entries, minimal collisions (50021 buckets): starting - ");
+	printf("Test 3: ~40,000 entries, minimal collisions (1,150,139 buckets): starting - ");
 	fflush(stdout);
 	start = clock();
-	dictionary(50021); // Few collisions, ~40,000 entries
+	dictionary(1150139); // Few collisions, ~40,000 entries
 	end = clock();
 	cpu_time = ((double)(end - start)) / CLOCKS_PER_SEC;
 	printf("Passed!\n");
