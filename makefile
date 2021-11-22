@@ -9,25 +9,25 @@ bin/test: ${OBJS} obj/test.o
 
 # Installs to standard locations /usr/local/include and /usr/local/lib.
 # To build and install manually, use \"make library\".
-install: library
+install:
 ifneq ($(shell id -u), 0)
 	@echo "You are not root. Use sudo or run target as root."
 	@echo "Use \"make lib\" to build library and install manually." 
 	@exit 1
 endif
 	@cp lib/fnv32_ht.h /usr/local/include
-	@cp lib/fnv32_ht.a /usr/local/lib
+	@cp lib/libfnv32_ht.a /usr/local/lib
 
 uninstall:
 ifneq ($(shell id -u), 0)
 	@echo "You are not root. Use sudo or run target as root."
 	@exit 1
 endif
-	@rm /usr/local/include/fnv32_ht.h /usr/local/lib/fnv32_ht.a
+	@rm /usr/local/include/fnv32_ht.h /usr/local/lib/libfnv32_ht.a
 
 # Build library to lib/ folder without installing.
-library: lib/fnv32_ht.a
-lib/fnv32_ht.a: ${OBJS}
+library: lib/libfnv32_ht.a
+lib/libfnv32_ht.a: ${OBJS}
 	@mkdir -p lib
 	ar rcs $@ $^
 	@cp src/fnv32_ht.h lib/
@@ -44,12 +44,11 @@ help:
 	@printf "\t- builds test binay to bin/test\n"
 
 	@printf "make library\n"
-	@printf "\t- builds library to lib/fnv32_ht.a\n"
+	@printf "\t- builds library to lib/libfnv32_ht.a\n"
 	@printf "\t- moves copy of fnv32_ht.h to lib/fnv32_ht.h\n"
 
 	@printf "make install\n\t!REQUIRES ROOT\n"
-	@printf "\t- builds library target (make library)\n"
-	@printf "\t- copies fnv32_ht.a to /usr/local/lib\n"
+	@printf "\t- copies libfnv32_ht.a to /usr/local/lib\n"
 	@printf "\t- copies fnv32_ht.h to /usr/local/include\n"
 
 	@printf "make uninstall\n\t!REQUIRES ROOT\n"
