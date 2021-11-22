@@ -4,6 +4,7 @@ DEPS := $(wildcard src/*.h)
 
 test: bin/test
 bin/test: ${OBJS} obj/test.o
+	@mkdir -p bin
 	gcc -o $@ $+
 
 # Installs to standard locations /usr/local/include and /usr/local/lib.
@@ -27,10 +28,12 @@ endif
 # Build library to lib/ folder without installing.
 library: lib/fnv32_ht.a
 lib/fnv32_ht.a: ${OBJS}
+	@mkdir -p lib
 	ar rcs $@ $^
 	@cp src/fnv32_ht.h lib/
 
 obj/%.o: src/%.c ${DEPS}
+	@mkdir -p obj
 	gcc -c $< -o $@
 
 obj/test.o: test/test.c
