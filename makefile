@@ -65,4 +65,4 @@ help:
 
 .PHONY: clean
 clean:
-	@rm -f bin/* obj/*
+	@rm -rf bin/ obj/ lib/
