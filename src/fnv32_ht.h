@@ -1,9 +1,16 @@
+// A FNV-1a 32bit hash table for string keys and dynamic (void *) vals.
+// Uses separate chaining to handle collisions.
+// Very fast and relizble if there are enough buckets
+// to avoid excessive collisions and memory is handled properly.
+//
+// Documentation: https://github.com/e-mo/fnv32_hashtable/ 
+//
+// Maintainer: Evan Morse
+// emorse8686@gmail.com
+// github.com/e-mo
+
 #ifndef FNV32_HT_H
 #define FNV32_HT_H
-// A FNV-1a 32bit hash table for string keys and int vals.
-// Uses separate chaining to handle collisions.
-
-#include <stdint.h>
 
 typedef struct fnv32_ht fnv32_ht;
 
