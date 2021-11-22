@@ -1,7 +1,4 @@
-<<<<<<< HEAD
-=======
 // fnv32_ht.c
->>>>>>> 307ba26808d8789dd1c9f0da4add27c4cd59b3e9
 // A FNV-1a 32bit hash table for string keys and dynamic (void *) vals.
 // Uses separate chaining to handle collisions.
 // Very fast and relizble if there are enough buckets
