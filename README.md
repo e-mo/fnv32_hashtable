@@ -29,6 +29,12 @@ int fnv32_ht_del(fnv32_ht *ht, char *key);
 // Returns -1 on failure to find entry associated with given key
 ```
 ```c
+void * fnv32_ht_rm(fnv32_ht *ht, char *key);
+// Returns (void *) value of entry associated with given key
+// Return NULL on failure to find entry associated with given key
+// After returning value, table entry is freed.
+```
+```c
 void * fnv32_ht_get(fnv32_ht *ht, char *key);
 // Returns (void *) value of entry associated with given key
 // Return -1 on failiure to find entry associated with given key
@@ -56,17 +62,19 @@ int main() {
 ## Pitfalls
 
 ### Double free
-There are two situations which can lead to a double call of free() on the same pointer:
-1. Data at a single memory location is associated with multiple keys. All values should be unique.
+There are two situations which can lead to a double call of free() on the same data:
+1. Data at a single memory location is associated with multiple keys.
 ```c
 void *test_val = malloc(10);
 fnv32_ht_ins(ht, "one", test_val);
 fnv32_ht_ins(ht, "two", test_val);
 fnv32_ht_free(ht); // This will result in a double free
 ```
+To avoid this, make sure every entry carries unique data. If data must be inserted into multiple entries, you must either use a 
+deep copy of the data, or manually NULL each entry before freeing using `fnv32_ht_ins(fnv32_ht *ht, char *key)`. 
   
-2. You call free() on memory associated with a key, and then call fnv32_ht_free() or fnv32_ht_del() on the entry. Only use fnv32_ht functions to free assicated memory once passed into hashtable. 
-
+2. You call free() on memory associated with a key, and then call `fnv32_ht_free(fnv32_ht *ht)` or `fnv32_ht_del(fnv32_ht *ht, char *key)` 
+on the entry.
 ```c
 void *test_val = malloc(10);
 fnv32_ht_ins(ht, "test", test_val);
@@ -79,3 +87,4 @@ fnv32_ht_ins(ht, "test", test_val);
 free(test_val);
 fnv32_ht_del("test"); // This will result in a double free
 ```
+To avoid these pitfalls, treat the hashtable as if it has ultimate ownership over any data given to it. If data must be removed from the table and freed manually, use the function `fnv32_ht_rm(fnv32_ht *ht, char *key)` function which returns the data and breaks the table's ownership of the data.  
