@@ -4,7 +4,7 @@
 #include <stdio.h>
 #include <time.h>
 
-#include "fnv32_ht.h"
+#include "../src/fnv32_ht.h"
 
 void single_bucket() {
 	char *foo = strdup("foo");
@@ -55,7 +55,7 @@ void dictionary(int buckets) {
 	assert(ht != NULL);
 
 	char buf[100];
-	FILE *dict = fopen("dictionary.txt", "r");
+	FILE *dict = fopen("test/dictionary.txt", "r");
 	assert(dict != NULL);
 	while (fgets(buf, 100, dict) != NULL) {
 		buf[strlen(buf)-1] = '\0';
