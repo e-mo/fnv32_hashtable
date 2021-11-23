@@ -93,7 +93,7 @@ int main() {
 	clock_t start, end;
 	double cpu_time;
 
-	printf("Test 1: single bucket: starting - ");
+	printf("Test 1: basic function test (single bucket): starting - ");
 	fflush(stdout);
 	start = clock();
 	single_bucket();   // Only collisions, 3 entries
