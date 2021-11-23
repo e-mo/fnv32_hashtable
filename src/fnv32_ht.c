@@ -12,7 +12,6 @@
 
 #include <stdlib.h>
 #include <string.h>
-#include <stdio.h>
 
 #include "fnv32_hash.h"
 #include "fnv32_ht.h"
