@@ -74,7 +74,7 @@ fnv32_ht_ins(ht, "two", test_val);
 fnv32_ht_free(ht); // This will result in a double free
 ```
 To avoid this, make sure every entry carries unique data. If data must be inserted into multiple entries, you must either use a 
-deep copy of the data, or manually NULL each entry before freeing using
+deep copy of the data, or manually NULL each entry before freeing using  
 `fnv32_ht_ins(fnv32_ht *ht, char *key)`. 
   
 2. Calling free() on memory associated with a key, and then calling
