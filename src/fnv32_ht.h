@@ -14,7 +14,7 @@
 
 typedef struct fnv32_ht fnv32_ht;
 
-fnv32_ht *fnv32_ht_new(unsigned size);
+fnv32_ht *fnv32_ht_new(unsigned int size);
 int fnv32_ht_ins(fnv32_ht *ht, char *key, void *val);
 int fnv32_ht_del(fnv32_ht *ht, char *key);
 void * fnv32_ht_rm(fnv32_ht *ht, char *key);
